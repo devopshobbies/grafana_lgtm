@@ -19,4 +19,4 @@
 
 ## Table of Contents
   - **Loki**:
-    - Part-1: Overview of Grafana Loki's architecture + installing Grafana Loki within a Kubernetes cluster [Helm Values](loki-helm)
+    - Part-1: Overview of Grafana Loki's architecture + installing Grafana Loki within a Kubernetes cluster [Github Link](loki-helm)
