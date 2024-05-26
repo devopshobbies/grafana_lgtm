@@ -15,3 +15,8 @@
   - **Mohammad Madanipour**
     - [GitHub](https://github.com/mohammadll)
     - [Linkedin](https://linkedin.com/in/mohammad-madanipour)
+   
+
+## Table of Contents
+  - **Loki**:
+    - Part-1: Overview of Grafana Loki's architecture + installing Grafana Loki within a Kubernetes cluster [Github Link](loki-helm)
