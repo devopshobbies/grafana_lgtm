@@ -1,0 +1,10 @@
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: loki
+        type: loki
+        url: http://loki-gateway.loki
+        access: proxy
+        isDefault: true
+        editable: true

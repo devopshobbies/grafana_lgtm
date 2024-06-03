@@ -1,0 +1,30 @@
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: PodLogs
+metadata:
+  labels:
+    instance: primary
+  name: kubernetes-pods
+  namespace: grafana-agent
+spec:
+  pipelineStages:
+    - docker: {}
+    - match:
+        selector: '{namespace="nginx"}'
+        stages: |
+          - regex:
+              expression: "(?P<method>GET|PUT|DELETE|POST)"
+          - regex:
+              expression: "(?P<status_code_with_http_version>HTTP.{6}\\d{3})"
+          - regex:
+              expression: "(?P<status_code>\\d{3})"
+              source: "status_code_with_http_version"
+          - labels:
+              method:
+              status_code:
+  namespaceSelector:
+    matchNames:
+    - default
+    - nginx
+    - grafana
+  selector:
+    matchLabels: {}
