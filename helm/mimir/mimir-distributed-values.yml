@@ -30,7 +30,7 @@ compactor:
   persistentVolume:
     storageClass: standard # Choose the storageClass you wanna use
 minio:
-  enabled: false # Mimir helm chart deploys minio by default, if prefer to use your own mimio instance, disable it as i did
+  enabled: false # Mimir helm chart deploys minio by default, if you prefer to use your own mimio instance, disable it as i did
 mimir:
   structuredConfig:
     common:
