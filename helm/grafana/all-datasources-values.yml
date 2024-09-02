@@ -1,0 +1,78 @@
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: loki
+        type: loki
+        url: http://loki-gateway.loki
+        access: proxy
+        editable: true
+      - name: Mimir-Pods-Tenant # All metrics related to <<pods>> tenant will be stored inside this datasource, because if you look at "jsonData" section, you find out that the value of "X-Scope-OrgID" is "pods"
+        type: prometheus
+        access: proxy
+        orgId: 1
+        url: http://mimir-nginx.mimir.svc.cluster.local/prometheus
+        isDefault: true
+        version: 1
+        editable: true
+        jsonData:
+          httpHeaderName1: "X-Scope-OrgID"
+          alertmanagerUid: "alertmanager"
+        secureJsonData:
+          httpHeaderValue1: "pods"
+      - name: Mimir-OtelMetrics-Tenant # All metrics related to <<otelMetrics>> tenant will be stored inside this datasource, because if you look at "jsonData" section, you find out that the value of "X-Scope-OrgID" is "otelMetrics"
+        type: prometheus
+        access: proxy
+        orgId: 1
+        url: http://mimir-nginx.mimir.svc.cluster.local/prometheus
+        version: 1
+        editable: true
+        jsonData:
+          httpHeaderName1: "X-Scope-OrgID"
+          alertmanagerUid: "alertmanager"
+        secureJsonData:
+          httpHeaderValue1: "otelMetrics"
+      - name: Mimir-Nodes-Tenant # All metrics related to <<nodes>> tenant will be stored inside this datasource, because if you look at "jsonData" section, you find out that the value of "X-Scope-OrgID" is "nodes"
+        type: prometheus
+        access: proxy
+        orgId: 1
+        url: http://mimir-nginx.mimir.svc.cluster.local/prometheus
+        version: 1
+        editable: true
+        jsonData:
+          httpHeaderName1: "X-Scope-OrgID"
+          alertmanagerUid: "alertmanager"
+        secureJsonData:
+          httpHeaderValue1: "nodes"
+      - name: Mimir Alertmanager
+        uid: alertmanager
+        type: alertmanager
+        access: proxy
+        orgId: 1
+        url: http://mimir-nginx.mimir.svc.cluster.local/
+        version: 1
+        editable: true
+        jsonData:
+          implementation: "cortex"
+      - name: Tempo
+        type: tempo
+        access: proxy
+        orgId: 1
+        url: http://tempo-query-frontend.tempo.svc.cluster.local:3100
+        basicAuth: false
+        version: 1
+        editable: true
+        apiVersion: 1
+        uid: tempo
+        jsonData:
+          httpMethod: GET
+          tracesToLogsV2: # If you are going to link your tracing data with logs, configure <<tracesToLogsV2>>
+            datasourceUid: 'loki'
+            spanStartTimeShift: '-2m'
+            spanEndTimeShift: '2m'
+            filterByTraceID: true
+            filterBySpanID: true
+          serviceMap: # If you are going to add serviceGraph feature to tempo, configure <<serviceMap.datasourceUid>>
+            datasourceUid: 'Mimir-OtelMetrics-Tenant'
+          nodeGraph: # If you are going to add nodeGraph feature to tempo, enable <<nodeGraph>>
+            enabled: true

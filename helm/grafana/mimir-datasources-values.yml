@@ -1,0 +1,39 @@
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Mimir-Pods-Tenant # All metrics related to <<pods>> tenant will be stored inside this datasource, because if you look at "jsonData" section, you find out that the value of "X-Scope-OrgID" is "pods"
+        type: prometheus
+        access: proxy
+        orgId: 1
+        url: http://mimir-nginx.mimir.svc.cluster.local/prometheus
+        isDefault: true
+        version: 1
+        editable: true
+        jsonData:
+          httpHeaderName1: "X-Scope-OrgID"
+          alertmanagerUid: "alertmanager"
+        secureJsonData:
+          httpHeaderValue1: "pods"
+      - name: Mimir-Nodes-Tenant # All metrics related to <<nodes>> tenant will be stored inside this datasource, because if you look at "jsonData" section, you find out that the value of "X-Scope-OrgID" is "nodes"
+        type: prometheus
+        access: proxy
+        orgId: 1
+        url: http://mimir-nginx.mimir.svc.cluster.local/prometheus
+        version: 1
+        editable: true
+        jsonData:
+          httpHeaderName1: "X-Scope-OrgID"
+          alertmanagerUid: "alertmanager"
+        secureJsonData:
+          httpHeaderValue1: "nodes"
+      - name: Mimir Alertmanager
+        uid: alertmanager
+        type: alertmanager
+        access: proxy
+        orgId: 1
+        url: http://mimir-nginx.mimir.svc.cluster.local/
+        version: 1
+        editable: true
+        jsonData:
+          implementation: "cortex"
