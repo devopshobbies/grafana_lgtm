@@ -49,7 +49,7 @@ loki:
       admin: loki-admin # create this bucket inside your minio instance
     type: s3
     s3:
-      endpoint: <MINIO-ENDPOINT> # Enter the url of your minio
+      endpoint: <MINIO-ENDPOINT> # Enter the url of your minio instance
       region: <MINIO-REGION> # Enter the region of your minio instance
       secretAccessKey: <MINIO-SECRET-ACCESS-KEY> # Create Secret and Access key inside you minio instance and type it here
       accessKeyId: <MINIO-ACCESS-KEY-ID> # Create Secret and Access key inside you minio instance and type it
