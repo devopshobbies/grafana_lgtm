@@ -2,7 +2,7 @@ apiVersion: monitoring.grafana.com/v1alpha1
 kind: PodLogs
 metadata:
   labels:
-    instance: primary
+    instance: primary # This label must match the <<podLogSelector.matchLabels>> of your LogsInstance resource
   name: kubernetes-pods
   namespace: grafana-agent
 spec:
@@ -22,7 +22,7 @@ spec:
               method:
               status_code:
   namespaceSelector:
-    matchNames:
+    matchNames: # The logs of pods related to these namespaces will be collected by grafana agent
     - default
     - nginx
     - grafana

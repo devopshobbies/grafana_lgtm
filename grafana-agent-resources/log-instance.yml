@@ -4,7 +4,7 @@ metadata:
   name: primary
   namespace: grafana-agent
   labels:
-    agent: grafana-agent-logs
+    agent: grafana-agent-logs # This label must match the <<logs.instanceSelector.matchLabels>> of your GrafanaAgent resource
 spec:
   clients:
   - url: http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push
@@ -14,4 +14,4 @@ spec:
   podLogsNamespaceSelector: {}
   podLogsSelector:
     matchLabels:
-      instance: primary
+      instance: primary # Your PodLogs resources must include this label.
