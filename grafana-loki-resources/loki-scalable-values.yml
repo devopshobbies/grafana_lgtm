@@ -1,16 +1,36 @@
+test:
+  enabled: false
+monitoring:
+  selfMonitoring:
+    enabled: false
+    grafanaAgent:
+      installOperator: false # Loki Helm chart, deploys grafana agent as the collector by default, but i prefer to use my own grafana agent collector which has been deployed separately, therefore i set <<installOperator>> to <<false>>
 read:
-  replicas: 1
-  persistence:
-    storageClass: standard
-write:
-  replicas: 1
-  persistence:
-    storageClass: standard
+  replicas: 1 # Modify Number of replicas if you want. The default number of replicas for the read is 3
 backend:
-  replicas: 1
+  replicas: 1 # Modify Number of replicas if you want. The default number of replicas for the backend is 3
   persistence:
-    storageClass: standard
+    storageClass: standard # Choose the storageClass you wanna use
+  extraVolumes:
+    - name: retention
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: retention
+      mountPath: /data # if you look at <<compactor.working_directory>> section, we need to set a volumeMount for that specific directory
+write:
+  replicas: 1 # # Modify Number of replicas if you want. The default number of replicas for the write is 3
+  persistence:
+    storageClass: standard # Choose the storageClass you wanna use
 loki:
+  limits_config:
+    max_query_lookback: 25h # To avoid querying of data beyond the retention period,max_query_lookback config in limits_config must be set to a value less than or equal to what is set in <<table_manager.retention_period>>
+    retention_period: 25h # which is applied globally for all log streams.
+  compactor:
+    working_directory: /data/retention # is the directory where marked chunks and temporary tables will be saved
+    delete_request_store: s3 # should be set to configure the store for delete requests. This is required when retention is enabled
+    retention_enabled: true
+  commonConfig:
+    replication_factor: 1 # If you prefer to use 3 replicas for the ingester(its default number of replicas is 3), therefore you do NOT need to set replication_factor to <<1>> . its default value is <<3>>
   schemaConfig:
     configs:
       - from: 2024-04-01
@@ -22,18 +42,18 @@ loki:
           period: 24h
         chunks:
           period: 24h
-  auth_enabled: false
-  commonConfig:
-    replication_factor: 1
   storage:
     bucketNames:
-      chunks: loki-chunks
-      ruler: loki-ruler
+      chunks: loki-chunks # create this bucket inside your minio instance
+      ruler: loki-ruler # create this bucket inside your minio instance
+      admin: loki-admin # create this bucket inside your minio instance
     type: s3
     s3:
-      endpoint: http://minio-local:9000
-      secretAccessKey: <<SECRET-ACCESS-KEY>>
-      accessKeyId: <<ACCESS-KEY-ID>>
-      insecure: true
+      endpoint: <MINIO-ENDPOINT> # Enter the url of your minio
+      region: <MINIO-REGION> # Enter the region of your minio instance
+      secretAccessKey: <MINIO-SECRET-ACCESS-KEY> # Create Secret and Access key inside you minio instance and type it here
+      accessKeyId: <MINIO-ACCESS-KEY-ID> # Create Secret and Access key inside you minio instance and type it
+ here
       s3ForcePathStyle: true
-      region: us-east-1
+      insecure: false # if your instance does NOT support <<https>>, change it to true
+  auth_enabled: false
