@@ -5,7 +5,7 @@ querier:
 alertmanager:
   fallbackConfig: | # FallbackConfig allows you to define Alertmanager configuration to use for any tenant for which hasn't been specified a configuration yet.
     route:
-      receiver: 'slack-notifications' # In this example i'm using mattermost as the target of alerts . change receiver configuration based on your own environment
+      receiver: 'slack-notifications'
     receivers:
     - name: 'slack-notifications'
       slack_configs:
@@ -22,8 +22,7 @@ ingester:
   persistentVolume:
     storageClass: standard # Choose the storageClass you wanna use
 store_gateway:
-  zoneAwareReplication: # zone-aware replication is the replication of data across failure domains, Enable it if you
-want to use it, https://grafana.com/docs/mimir/latest/configure/configure-zone-aware-replication/
+  zoneAwareReplication: # zone-aware replication is the replication of data across failure domains, Enable it if you want to use it, https://grafana.com/docs/mimir/latest/configure/configure-zone-aware-replication/
     enabled: false
   persistentVolume:
     storageClass: standard # Choose the storageClass you wanna use
