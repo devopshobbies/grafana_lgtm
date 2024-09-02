@@ -5,7 +5,7 @@ metrics:
   global:
     scrape_interval: 1m
     remote_write:
-    - url: http://localhost:8090/api/v1/push # The Url of your mimir instance, change it based on your own instance
+    - url: http://localhost:8090/api/v1/push # The Url of our mimir instance, change it based on your own instance
       headers:
         X-Scope-OrgID: nodes # Using this header is OPTIONAL, Multi-tenancy feature of mimir allows you to store metrics inside seperate tenants. in this example i prefer to store node metrics inside <<nodes>> tenant
   wal_directory: '/var/lib/grafana-agent'
