@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trace-app
+  namespace: trace-demo
+  labels:
+    app: trace-app
+spec:
+  selector:
+    matchLabels:
+      app: trace-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: trace-app
+      annotations:
+        instrumentation.opentelemetry.io/inject-python: "true"
+    spec:
+      containers:
+      - name: trace-app
+        image: trace-demo:v4
+        ports:
+          - containerPort: 8080
+            protocol: TCP

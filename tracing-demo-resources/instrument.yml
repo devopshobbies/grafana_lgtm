@@ -1,0 +1,20 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: demo-instrumentation
+  namespace: trace-demo
+spec:
+  exporter:
+    endpoint: http://alloy-traces.alloy-traces.svc.cluster.local:4318
+  propagators:
+    - tracecontext
+    - baggage
+  sampler:
+    type: parentbased_traceidratio
+    argument: "1"
+  python:
+    env:
+      - name: OTEL_EXPORTER_OTLP_TRACES_PROTOCOL
+        value: http/protobuf
+      - name: OTEL_EXPORTER_OTLP_METRICS_PROTOCOL
+        value: http/protobuf
