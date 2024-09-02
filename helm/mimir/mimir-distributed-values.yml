@@ -1,0 +1,56 @@
+query_scheduler:
+  replicas: 1 # Modify Number of replicas if you want, The default number of replicas for the query_scheduler is 2
+querier:
+  replicas: 1 # Modify Number of replicas if you want, The default number of replicas for the querier is 2
+alertmanager:
+  fallbackConfig: | # FallbackConfig allows you to define Alertmanager configuration to use for any tenant for which hasn't been specified a configuration yet.
+    route:
+      receiver: 'slack-notifications' # In this example i'm using mattermost as the target of alerts . change receiver configuration based on your own environment
+    receivers:
+    - name: 'slack-notifications'
+      slack_configs:
+      - send_resolved: true
+        channel: "#alerting"
+        api_url: "http://mattermost-local:8065/hooks/3g9jfz5tr784zmheu44b6be39o"
+        title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
+        text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
+  persistentVolume:
+    storageClass: standard # Choose the storageClass you wanna use
+ingester:
+  zoneAwareReplication: # zone-aware replication is the replication of data across failure domains, Enable it if you want to use it, https://grafana.com/docs/mimir/latest/configure/configure-zone-aware-replication/
+    enabled: false 
+  persistentVolume:
+    storageClass: standard # Choose the storageClass you wanna use
+store_gateway:
+  zoneAwareReplication: # zone-aware replication is the replication of data across failure domains, Enable it if you
+want to use it, https://grafana.com/docs/mimir/latest/configure/configure-zone-aware-replication/
+    enabled: false
+  persistentVolume:
+    storageClass: standard # Choose the storageClass you wanna use
+compactor:
+  persistentVolume:
+    storageClass: standard # Choose the storageClass you wanna use
+minio:
+  enabled: false # Mimir helm chart deploys minio by default, if prefer to use your own mimio instance, disable it as i did
+mimir:
+  structuredConfig:
+    common:
+      storage:
+        backend: s3
+        s3:
+          access_key_id: <ACCESS_KEY_ID> # Create Secret and Access key inside you minio instance and type access_key_id here
+          bucket_name: mimir-ruler # Create this bucket inside your minio instance
+          endpoint: <ENDPOINT> # Enter the url of your minio instance
+          insecure: <true|false> # if your instance does NOT support <<https>>, change it to true
+          secret_access_key: <<SECRET_ACCESS_KEY>> # Create Secret and Access key inside you minio instance and type secret_access_key here
+    blocks_storage:
+      s3:
+        bucket_name: mimir-tsdb # Create this bucket inside your minio instance
+
+    alertmanager_storage:
+      s3:
+        bucket_name: mimir-ruler # Create this bucket inside your minio instance
+
+    ruler_storage:
+      s3:
+        bucket_name: mimir-ruler # Create this bucket inside your minio instance
