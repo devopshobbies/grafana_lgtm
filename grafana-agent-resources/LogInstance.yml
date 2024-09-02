@@ -14,4 +14,4 @@ spec:
   podLogsNamespaceSelector: {}
   podLogsSelector:
     matchLabels:
-      instance: primary # Your PodLogs resources must include this label.
+      instance: primary # Your PodLogs resources must include this label to be detected by the LogsInstance resource

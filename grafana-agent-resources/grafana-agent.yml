@@ -1,84 +1,18 @@
-apiVersion: monitoring.grafana.com/v1alpha1
-kind: GrafanaAgent
-metadata:
-  name: grafana-agent
-  namespace: grafana-agent  # Choose any namespace you want
-  labels:
-    app: grafana-agent
-spec:
-  image: grafana/agent:v0.41.0
-  integrations:
-    selector:
-      matchLabels:
-          agent: grafana-agent-integrations
-  logLevel: info
-  serviceAccountName: grafana-agent
-  metrics:
-    instanceSelector:
-      matchLabels:
-        agent: grafana-agent-metrics  # Your MetricInstance resources must include this label
-    externalLabels:
-      cluster: cloud
+server:
+  log_level: info
 
-  logs:
-    instanceSelector:
-      matchLabels:
-        agent: grafana-agent-logs # Your LogInstance resources must include this label
+metrics:
+  global:
+    scrape_interval: 1m
+    remote_write:
+    - url: http://localhost:8090/api/v1/push # The Url of your mimir instance, change it based on your own instance
+      headers:
+        X-Scope-OrgID: nodes # Using this header is OPTIONAL, Multi-tenancy feature of mimir allows you to store metrics inside seperate tenants. in this example i prefer to store node metrics inside <<nodes>> tenant
+  wal_directory: '/var/lib/grafana-agent'
 
----
-
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: grafana-agent
-  namespace: grafana-agent # GrafanaAgent Resource is using the same namespace
-
----
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: grafana-agent
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - nodes
-  - nodes/proxy
-  - nodes/metrics
-  - services
-  - endpoints
-  - pods
-  - events
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - networking.k8s.io
-  resources:
-  - ingresses
-  verbs:
-  - get
-  - list
-  - watch
-- nonResourceURLs:
-  - /metrics
-  - /metrics/cadvisor
-  verbs:
-  - get
-
----
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: grafana-agent
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: grafana-agent
-subjects:
-- kind: ServiceAccount
-  name: grafana-agent
-  namespace: grafana-agent
+integrations:
+  node_exporter:
+    enabled: true # The metrics of your node will be collected by grafana agent when you set <<enabled: true>>
+    include_exporter_metrics: true
+    disable_collectors:
+      - "mdadm"
