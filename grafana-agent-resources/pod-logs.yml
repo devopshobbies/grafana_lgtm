@@ -8,7 +8,7 @@ metadata:
 spec:
   pipelineStages:
     - docker: {}
-    - match: # This is an example to show you how pipeline stages work! such as adding labels to log lines as i did here, This stage is responsible to add http_method as well as http_status_code to log lines of all pods inside nginx namespace
+    - match: # This is an example to show you how pipeline stages work! such as adding labels to log lines as i did here, This stage is responsible to add http_method as well as http_status_code labels to log lines of all pods inside nginx namespace
         selector: '{namespace="nginx"}'
         stages: |
           - regex:
