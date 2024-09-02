@@ -1,0 +1,6 @@
+alloy:
+  configMap:
+    create: false
+    name: alloy-config # Your alloy instance uses this configmap as its configuration (alloy configuration)
+    key: config.alloy # The value of this key is used as alloy configuration
+# Default Controller type is `statefulset` and i DO NOT want to change it because Deploying Alloy as a StatefulSet is the recommended option for Prometheus metrics collection. The persistent Pod identifiers make it possible to consistently match volumes with pods so that you can use them for the WAL directory.

@@ -1,0 +1,106 @@
+apiVersion: v1
+data:
+  config.alloy: |
+     discovery.kubernetes "pods" {
+       role = "pod"
+     }
+
+     discovery.relabel "pod_logs" {
+       targets = discovery.kubernetes.pods.targets
+       rule {
+         source_labels = ["__meta_kubernetes_namespace"]
+         target_label  = "namespace"
+       }
+       rule {
+         source_labels = ["__meta_kubernetes_pod_name"]
+         target_label  = "pod"
+       }
+       rule {
+         source_labels = ["__meta_kubernetes_pod_container_name"]
+         target_label  = "container"
+       }
+       rule {
+         source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_name"]
+         separator     = "/"
+         target_label  = "job"
+       }
+       rule {
+         source_labels = ["__meta_kubernetes_pod_uid", "__meta_kubernetes_pod_container_name"]
+         separator     = "/"
+         action        = "replace"
+         replacement   = "/var/log/pods/*$1/*.log"
+         target_label  = "__path__"
+       }
+       rule {
+         action = "replace"
+         source_labels = ["__meta_kubernetes_pod_container_id"]
+         regex = "^(\\w+):\\/\\/.+$"
+         replacement = "$1"
+         target_label = "tmp_container_runtime"
+       }
+     }
+
+     local.file_match "pod_logs" {
+       path_targets = discovery.relabel.pod_logs.output
+     }
+
+     loki.source.file "pod_logs" {
+       targets    = local.file_match.pod_logs.targets
+       forward_to = [loki.process.pod_logs.receiver]
+     }
+
+     loki.process "pod_logs" {
+       stage.match {
+         selector = "{namespace=~\"(ngin|ngim)x\"}"
+         stage.regex {
+           expression = "(?P<method>GET|PUT|DELETE|POST)"
+         }
+         stage.regex {
+           expression = "(?P<status_code_with_http_version>HTTP.{6}\\d{3})"
+         }
+         stage.regex {
+           expression = "(?P<status_code>\\d{3})"
+           source = "status_code_with_http_version"
+         }
+         stage.labels {
+           values = {
+             method = "",
+             status_code = "",
+           }
+         }
+       }
+       stage.match {
+         selector = "{tmp_container_runtime=\"containerd\"}"
+         stage.cri {}
+         stage.labels {
+           values = {
+             flags   = "",
+             stream  = "",
+           }
+         }
+       }
+       stage.match {
+         selector = "{tmp_container_runtime=\"docker\"}"
+         stage.docker {}
+         stage.labels {
+           values = {
+             stream  = "",
+           }
+         }
+       }
+       stage.label_drop {
+         values = ["tmp_container_runtime"]
+       }
+
+       forward_to = [loki.write.loki.receiver]
+     }
+
+     loki.write "loki" {
+       endpoint {
+         url = "http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push"
+       }
+     }
+kind: ConfigMap
+metadata:
+  name: alloy-config
+  namespace: alloy-logs

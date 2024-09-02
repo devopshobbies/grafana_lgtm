@@ -1,0 +1,16 @@
+alloy:
+  extraPorts:
+    - name: otlp-grpc # The default port for otlp-grpc is 4317, so you need to add this port to the service related to your alloy instance
+      port: 4317
+      targetPort: 4317
+      protocol: TCP
+    - name: otlp-http # The default port for otlp-http is 4318, so you need to add this port to the service related to your alloy instance
+      port: 4318
+      targetPort: 4318
+      protocol: TCP
+  configMap:
+    create: false
+    name: alloy-config # Your alloy instance uses this configmap as its configuration (alloy configuration)
+    key: config.alloy # The value of this key is used as alloy configuration
+controller:
+  type: 'deployment' # You can use a Kubernetes Deployment in cases where persistent storage isn’t required, such as a traces-only pipeline

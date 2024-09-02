@@ -1,0 +1,11 @@
+alloy:
+  configMap:
+    create: false
+    name: alloy-config # Your alloy instance uses this configmap as its configuration (alloy configuration)
+    key: config.alloy # The value of this key is used as alloy configuration
+  clustering:
+    enabled: false
+  mounts:
+    varlog: true # Mount /var/log from the host into the container for log collection
+controller:
+  type: 'daemonset' # Deploying one Alloy instance per machine is required for collecting machine-level Prometheus metrics and logs
