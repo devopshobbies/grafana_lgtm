@@ -18,6 +18,3 @@
    
 
 ## Table of Contents
-  - **Loki**:
-    - Part-1: Overview of Grafana Loki's architecture + installing Grafana Loki within a Kubernetes cluster [Github Link](loki-helm)
-    - Part-2: Starting to collect logs using Grafana Agent and working with its pipeline stages to add labels [Github Link](agent-operator)
