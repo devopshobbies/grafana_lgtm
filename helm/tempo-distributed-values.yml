@@ -1,0 +1,27 @@
+---
+storage:
+  trace:
+    backend: s3
+    s3:
+      access_key: <ACCESS_KEY> # Create Secret and Access key inside you minio instance and type access_key here
+      secret_key: <SECRET_KEY> # Create Secret and Access key inside you minio instance and type secret_key here
+      bucket: 'tempo-traces' # Create this bucket inside your minio instance
+      endpoint: <endpoint> # Enter the url of your minio instance
+      insecure: <true|false> # if your instance does NOT support <<https>>, change it to true
+
+minio:
+  enabled: false # Tempo helm chart deploys minio by default, if you prefer to use your own mimio instance, disable it as i did
+
+traces: # Based on yout tracing protocol, enable one of them, (otlp|zipkin|jaeger|opencensus). in this example i enabled otlp http and grpc traces
+  otlp:
+    grpc:
+      enabled: true # Enable Tempo to ingest Open Telemetry GRPC traces
+    http:
+      enabled: true # Enable Tempo to ingest Open Telemetry HTTP traces
+  zipkin:
+    enabled: false
+  jaeger:
+    thriftHttp:
+      enabled: false
+  opencensus:
+    enabled: false
