@@ -9,6 +9,7 @@ This repository contains various resources related to Loki, Grafana, Tempo, and 
 * [Grafana Tempo](https://grafana.com/oss/tempo/) - Distributed Tracing Backend
 * [Grafana Mimir](https://grafana.com/oss/mimir/) - TSDB for Long-term Storage for Prometheus
 * [Grafana Agent](https://grafana.com/docs/agent/latest/) -  OpenTelemetry Collector Distribution
+* [Grafana Alloy](https://grafana.com/docs/alloy/latest/) -  OpenTelemetry Collector Distribution | As a replacement for Grafana Agent
 
    
 ## Scenarios and Setup Guide
