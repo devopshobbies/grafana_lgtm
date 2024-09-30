@@ -10,13 +10,7 @@ This repository contains various resources related to Loki, Grafana, Tempo, and 
 * [Grafana Mimir](https://grafana.com/oss/mimir/) - TSDB for Long-term Storage for Prometheus
 * [Grafana Agent](https://grafana.com/docs/agent/latest/) -  OpenTelemetry Collector Distribution
 
-
-## About the Author
-  - **Mohammad Madanipour**
-    - [GitHub](https://github.com/mohammadll)
-    - [Linkedin](https://linkedin.com/in/mohammad-madanipour)
    
-
 ## Scenarios and Setup Guide
   - Loki Scenario
     - [Deploying Grafana Loki on Kubernetes Cluster Using Its Helm Chart](https://github.com/devopshobbies/grafana_lgtm/tree/main/loki-scenario#deploying-grafana-loki-on-kubernetes-cluster-using-its-helm-chart)
@@ -27,6 +21,11 @@ This repository contains various resources related to Loki, Grafana, Tempo, and 
     - WILL BE UPDATED SOON
   - Tempo Scenario
     - WILL BE UPDATED SOON
+
+## About the Author
+  - **Mohammad Madanipour**
+    - [GitHub](https://github.com/mohammadll)
+    - [Linkedin](https://linkedin.com/in/mohammad-madanipour)
 
 
 ## LGTM-Stack Course on DevOps Hobbies YouTube Channel
