@@ -10,7 +10,6 @@ This repository contains various resources related to Loki, Grafana, Tempo, and 
 * [Grafana Mimir](https://grafana.com/oss/mimir/) - TSDB for Long-term Storage for Prometheus
 * [Grafana Agent](https://grafana.com/docs/agent/latest/) -  OpenTelemetry Collector Distribution
 
-This repository contains various resources related to Loki, Grafana, Tempo, and Mimir. These tools are key components in modern observability and monitoring stacks, providing capabilities for logging, metrics, and tracing in cloud-native environments.
 
 ## About the Author
   - **Mohammad Madanipour**
@@ -28,3 +27,7 @@ This repository contains various resources related to Loki, Grafana, Tempo, and 
     - WILL BE UPDATED SOON
   - Tempo Scenario
     - WILL BE UPDATED SOON
+
+
+## You can also follow the videos from the LGTM-Stack course on the DevOps Hobbies YouTube Channel
+ - WILL BE UPDATED SOON
