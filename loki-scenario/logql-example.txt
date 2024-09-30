@@ -1,0 +1,25 @@
+{KEY="VALUE"}
+{KEY1="VALUE1",KEY2="VALUE2"}
+{KEY1=~".+",KEY2!="VALUE2"}
+{KEY="VALUE"} |= "TEXT"
+{KEY="VALUE"} != "TEXT"
+{KEY="VALUE"} |~ "TEXT1|TEXT2"
+{KEY="VALUE"} |= "TEXT1" != "TEXT2"
+{KEY="VALUE"} |~ "status [45]03"
+
+
+count_over_time : Shows the total count of log lines for time range
+rate : Similar as count_over_time but converted to number of entries per second
+
+count_over_time({job="varlogs"}[1m])
+count_over_time({job="varlogs"} |= "error" [1h])
+
+
+sum : Calculate the total of all vectors in the range at time
+min : Show the minimum value from all vectors in the range at time
+max : Show the maximum value from all vectors in the range at time
+avg : Calculate the average of the values from all vectors in the range at time
+
+
+sum(count_over_time({job="varlogs"}[1m]))
+sum(count_over_time({job="varlogs"}[1m])) by (filename)
