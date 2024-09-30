@@ -29,5 +29,5 @@ This repository contains various resources related to Loki, Grafana, Tempo, and 
     - WILL BE UPDATED SOON
 
 
-## You can also follow the videos from the LGTM-Stack course on the DevOps Hobbies YouTube Channel
+## LGTM-Stack Course on DevOps Hobbies YouTube Channel
  - WILL BE UPDATED SOON
