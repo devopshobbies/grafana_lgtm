@@ -7,3 +7,11 @@ The original Loki Scalable Helm chart comes with a wide range of default configu
 Instead of using the Grafana UI, you can programmatically add a Loki datasource by modifying the Grafana Helm chart. I achieved this by defining the Loki datasource within the `datasources.datasources.yaml` section of the Helm chart's configuration. This allows for automated provisioning of the Loki datasource, ensuring it is consistently deployed with the Grafana instance, avoiding manual intervention. The YAML section includes key configurations such as the datasource name, URL, access method, and authentication, which can be adjusted to suit your environment.
 
     helm install grafana -n grafana grafana/grafana -f loki-scenario/loki-datasource-values.yml
+
+## Collecting Logs Using Grafana Agent Kubernetes Operator
+We can now collect logs from all Kubernetes pods using a log collector, such as the Grafana Agent. To start, we will install the Grafana Agent Kubernetes Operator in our cluster. Once deployed, we'll configure three critical resources: `GrafanaAgent`, `LogsInstance`, and `PodLogs`. These resources enable the Grafana Agent to gather logs from pods in specified namespaces. The `namespaceSelector` field in the `PodLogs` resource defines the namespaces from which logs should be collected. For example, to demonstrate how labels can be added to logs, I configured the `pipelineStages` section of the `PodLogs` resource to append the `http_status_code` and `http_method` labels to all logs from pods in the Nginx namespace. This approach ensures that logs are enriched with useful metadata, aiding in better filtering and analysis.
+
+    helm install collector -n grafana-agent grafana/grafana-agent-operator
+    kubectl apply -f grafana-agent-resources/GrafanaAgent.yml
+    kubectl apply -f grafana-agent-resources/LogInstance.yml
+    kubectl apply -f grafana-agent-resources/PodLogs.yml
