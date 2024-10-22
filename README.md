@@ -19,7 +19,11 @@ This repository contains various resources related to Loki, Grafana, Tempo, and 
     - [Collecting Logs Using Grafana Agent Kubernetes Operator](https://github.com/devopshobbies/grafana_lgtm/tree/main/loki-scenario#collecting-logs-using-grafana-agent-kubernetes-operator)
     - [From Agent to Alloy](https://github.com/devopshobbies/grafana_lgtm/tree/main/loki-scenario#from-agent-to-alloy)
   - Grafana Mimir Scenario
-    - WILL BE UPDATED SOON
+    - [Deploying Grafana Mimir on Kubernetes Cluster Using Its Helm Chart](https://github.com/devopshobbies/grafana_lgtm/tree/main/mimir-scenario#deploying-grafana-mimir-on-kubernetes-cluster-using-its-helm-chart)
+    - [Adding Grafana Mimir Datasource To Grafana](https://github.com/devopshobbies/grafana_lgtm/tree/main/mimir-scenario#adding-grafana-mimir-datasource-to-grafana)
+    - [Collecting Metrics Using Grafana Agent Kubernetes Operator Mode and Static Mode](https://github.com/devopshobbies/grafana_lgtm/tree/main/mimir-scenario#collecting-metrics-using-grafana-agent-kubernetes-operator-mode-and-static-mode)
+    - [Migrate from Grafana Agent Static to Grafana Alloy](https://github.com/devopshobbies/grafana_lgtm/tree/main/mimir-scenario#migrate-from-grafana-agent-static-to-grafana-alloy)
+    - [Migrate from Grafana Agent Operator to Grafana Alloy](https://github.com/devopshobbies/grafana_lgtm/tree/main/mimir-scenario#migrate-from-grafana-agent-operator-to-grafana-alloy)
   - Grafana Tempo Scenario
     - WILL BE UPDATED SOON
 
