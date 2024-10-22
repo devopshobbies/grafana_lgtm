@@ -1,0 +1,32 @@
+prometheus.exporter.unix "integrations_node_exporter" {
+	include_exporter_metrics = true
+	disable_collectors       = ["mdadm"]
+}
+
+discovery.relabel "integrations_node_exporter" {
+	targets = prometheus.exporter.unix.integrations_node_exporter.targets
+
+	rule {
+		target_label = "job"
+		replacement  = "integrations/node_exporter"
+	}
+}
+
+prometheus.scrape "integrations_node_exporter" {
+	targets    = discovery.relabel.integrations_node_exporter.output
+	forward_to = [prometheus.remote_write.integrations.receiver]
+	job_name   = "integrations/node_exporter"
+}
+
+prometheus.remote_write "integrations" {
+	endpoint {
+		url     = "http://localhost:8090/api/v1/push"
+		headers = {
+			"X-Scope-OrgID" = "nodes",
+		}
+
+		queue_config { }
+
+		metadata_config { }
+	}
+}
