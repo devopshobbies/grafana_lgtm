@@ -31,9 +31,9 @@ In the previous step, we used Grafana Agent in two different modes. Now, it's ti
 ## Migrate from Grafana Agent Operator to Grafana Alloy
 Now, let's migrate from Grafana Agent Kubernetes Operator mode to Grafana Alloy. It's important to note that the monitor types (`PodMonitor, ServiceMonitor, Probe, and PodLogs`) are all natively supported by Alloy, while the components of the Grafana Agent Operator that deploy `GrafanaAgent, MetricsInstance, and LogsInstance` CRDs are deprecated. To gather Kubernetes pod metrics using Grafana Alloy, I deploy `ServiceMonitor` resources and configure an Alloy ConfigMap to serve as the Alloy configuration. This configuration is designed to discover ServiceMonitor and PodMonitor resources. In this example, I use the `X-Scope-OrgID = pods` header in the configuration file `grafana-alloy-resources/alloy-metrics-configMap.yml` to route pod metrics to the `pods tenant` in Mimir
 
-    kubectl create ns alloy-metrics
     helm uninstall collector -n grafana-agent
     kubectl delete -f grafana-agent-resources/GrafanaAgent.yml
+    kubectl create ns alloy-metrics
     kubectl apply -f mimir-scenario/cadvisor-ServiceMonitor.yml && kubectl apply -f mimir-scenario/kubelet-ServiceMonitor.yml
     kubectl apply -f grafana-alloy-resources/alloy-metrics-configMap.yml -n alloy-metrics
     helm install alloy-metrics grafana/alloy -n alloy-metrics -f mimir-scenario/alloy-metrics-values.yml
