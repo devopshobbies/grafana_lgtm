@@ -25,5 +25,5 @@ We are now transitioning from using Grafana Agent to Grafana Alloy for log colle
     kubectl delete -f grafana-agent-resources/PodLogs.yml
     kubectl create ns alloy-logs
     kubectl apply -f grafana-alloy-resources/alloy-logs-configMap.yml -n alloy-logs
-    helm install alloy-logs grafana/alloy -n alloy-logs -f alloy-values.yml
+    helm install alloy-logs grafana/alloy -n alloy-logs -f loki-scenario/alloy-logs-values.yml
     
