@@ -16,3 +16,17 @@ We're going to use grafana agent to collect metrics in two different modes to sh
     kubectl apply -f grafana-agent-resources/MetricInstance.yml
     kubectl apply -f grafana-agent-resources/cadvisor-ServiceMonitor.yml
     kubectl apply -f grafana-agent-resources/kubelet-ServiceMonitor.yml
+
+## Migrate from Grafana Agent Static to Grafana Alloy
+In the previous step, we used Grafana Agent in two different modes. Now, it's time to migrate from Grafana Agent to Alloy as the collector. First, let's convert the static mode setup to Alloy. To do this, we need to install Alloy on our environment, such as on the Linux node, and stop the running Grafana Agent service using `systemctl`. Then, we use the `convert` command provided by Alloy to convert our Grafana Agent configuration into `Alloy's configuration format`. Finally, we enable and start the Alloy service on our Linux node using systemctl, ensuring Alloy is now actively collecting metrics.
+
+    sudo mkdir -p /etc/apt/keyrings/
+    wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null
+    echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | sudo tee /etc/apt/sources.list.d/grafana.list
+    sudo apt-get update && sudo apt-get install alloy
+    systemctl stop grafana-agent && systemctl disable grafana-agent
+    alloy convert --source-format=static --output=/etc/alloy/config.alloy grafana-agent-resources/grafana-agent.yml
+    systemctl enable --now alloy
+
+## Migrate from Grafana Agent Operator to Grafana Alloy
+Now, let's migrate from Grafana Agent Kubernetes Operator mode to Grafana Alloy. It's important to note that the monitor types (`PodMonitor, ServiceMonitor, Probe, and PodLogs`) are all natively supported by Alloy, while the components of the Grafana Agent Operator that deploy `GrafanaAgent, MetricsInstance, and LogsInstance` CRDs are deprecated. To gather Kubernetes pod metrics using Grafana Alloy, I deploy `ServiceMonitor` resources and configure an Alloy ConfigMap to serve as the Alloy configuration. This configuration is designed to discover ServiceMonitor and PodMonitor resources. In this example, I use the `X-Scope-OrgID = pods` header in the configuration file `grafana-alloy-resources/alloy-metrics-configMap.yml` to route pod metrics to the `pods tenant` in Mimir
