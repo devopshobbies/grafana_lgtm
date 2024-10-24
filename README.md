@@ -39,6 +39,7 @@ This repository contains various resources related to Loki, Grafana, Tempo, and 
     - [Enhancing Application Logs with Grafana Agent Pipeline Stages](https://www.youtube.com/watch?v=7NZd5DyFFp0&list=PLYrn63eEqAzZL2TaS0pXXw-_DEl3SsAF_&index=2)
     - [Working with LogQL and Setting up Alerting](https://www.youtube.com/watch?v=boS5enCeszU&list=PLYrn63eEqAzZL2TaS0pXXw-_DEl3SsAF_&index=1)
  - Grafana Mimir + Grafana + Grafana Agent + Grafana Alloy
+   - [Getting Started with Grafana Mimir](https://www.youtube.com/watch?v=MS_ZlnDPj3E&list=PLYrn63eEqAzZL2TaS0pXXw-_DEl3SsAF_&index=4)
    - WILL BE UPDATED SOON
  - Grafana Tempo + Grafana + Grafana Alloy + OpenTelemetry
    - WILL BE UPDATED SOON
