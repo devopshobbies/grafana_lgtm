@@ -12,6 +12,6 @@ opentelemetry-instrumentation==0.47b0
 opentelemetry-sdk==1.26.0
 opentelemetry-semantic-conventions==0.47b0
 typing-extensions==4.12.2
-werkzeug==3.0.4
+werkzeug==3.0.6
 wrapt==1.16.0
 zipp==3.20.0
