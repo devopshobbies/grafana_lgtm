@@ -43,4 +43,5 @@ This repository contains various resources related to Loki, Grafana, Tempo, and 
    - [Implementing Grafana Agent to Write Metrics in Mimir with Multi-Tenant Architecture](https://www.youtube.com/watch?v=avmhMu0Y9N0&list=PLYrn63eEqAzZL2TaS0pXXw-_DEl3SsAF_&index=5)
    - [Migrating from Grafana Agent to Grafana Alloy](https://www.youtube.com/watch?v=wph1taa1viE&list=PLYrn63eEqAzZL2TaS0pXXw-_DEl3SsAF_&index=6)
  - Grafana Tempo + Grafana + Grafana Alloy + OpenTelemetry
+   - [Getting Started with Grafana Tempo and Opentelemetry Instrumentation](https://www.youtube.com/watch?v=79G9a_SnKak&list=PLYrn63eEqAzZL2TaS0pXXw-_DEl3SsAF_&index=7)
    - WILL BE UPDATED SOON
