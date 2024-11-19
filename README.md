@@ -44,4 +44,4 @@ This repository contains various resources related to Loki, Grafana, Tempo, and 
    - [Migrating from Grafana Agent to Grafana Alloy](https://www.youtube.com/watch?v=wph1taa1viE&list=PLYrn63eEqAzZL2TaS0pXXw-_DEl3SsAF_&index=6)
  - Grafana Tempo + Grafana + Grafana Alloy + OpenTelemetry
    - [Getting Started with Grafana Tempo and Opentelemetry Instrumentation](https://www.youtube.com/watch?v=79G9a_SnKak&list=PLYrn63eEqAzZL2TaS0pXXw-_DEl3SsAF_&index=7)
-   - WILL BE UPDATED SOON
+   - [Writing Traces to Tempo with Grafana Alloy](https://www.youtube.com/watch?v=uxRrRZ0PTcs&list=PLYrn63eEqAzZL2TaS0pXXw-_DEl3SsAF_&index=8)
